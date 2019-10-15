@@ -9,11 +9,10 @@ TAG=${TAG:-${VERSION}-DEBUG}
 REPO=${REPO:-openebs}
 BASE_DOCKER_IMAGEARM64=${BASE_DOCKER_IMAGEARM64:-arm64v8/ubuntu:18.04}
 
-if [ ! -x ../bin/debug/longhorn ]; then
-    ../scripts/build_debug_binaries
+if [ ! -x ../bin/debug/${ARCH}/longhorn ]; then
+    ../scripts/build_binaries
 fi
-
-cp ../bin/debug/longhorn* .
+cp ../bin/debug/${ARCH}/longhorn* .
 #cp /usr/src/tgt/pkg/tgt_*.deb .
 if [ ${ARCH} == "linux_arm64" ]
 then

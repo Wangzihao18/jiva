@@ -9,12 +9,11 @@ TAG=${TAG:-${VERSION}}
 REPO=${REPO:-openebs}
 BASE_DOCKER_IMAGEARM64=${BASE_DOCKER_IMAGEARM64:-arm64v8/ubuntu:18.04}
 
-if [ ! -x ../bin/longhorn ]; then
+if [ ! -x ../bin/${ARCH}/longhorn ]; then
     ../scripts/build_binaries
 fi
-
-cp ../bin/longhorn* .
-cp ../bin/longhorn jivactl
+cp ../bin/${ARCH}/longhorn* .
+cp ../bin/${ARCH}/longhorn jivactl
 #cp /usr/src/tgt/pkg/tgt_*.deb .
 if [ ${ARCH} == "linux_arm64" ]
 then

@@ -1,9 +1,34 @@
 #!/bin/bash
 set -e
 
+# build
+build(){
+  for GOOS in "${XC_OSS[@]}"
+  do
+      for GOARCH in "${XC_ARCHS[@]}"
+      do
+          UNDERSCORE="_"
+          output_name="bin/debug/${GOOS}${UNDERSCORE}${GOARCH}/longhorn"
+
+          echo "Building for: ${GOOS} ${GOARCH}"
+
+          gox -tags "debug" -os="$GOOS" -arch="$GOARCH" \
+            -ldflags "-X main.VERSION=$VERSION" \
+            -output="$output_name"
+      done
+  done
+  echo "Successfully build debug for ${GOARCH} ..."
+}
+
 source $(dirname $0)/version
 
 cd $(dirname $0)/..
 
+XC_ARCHS=("${XC_ARCH// / }")
+XC_OSS=("${XC_OS// / }")
+
+rm -rf bin/debug/*
 mkdir -p bin/debug
-go build -tags "debug" -ldflags "-X main.VERSION=$VERSION" -o bin/debug/longhorn
+
+echo "==> Building debug ..."
+build
